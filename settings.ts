@@ -13,27 +13,69 @@ export interface BriefmakerSettings {
   rules: BriefmakerRule[];
 }
 
-export const DEFAULT_TEMPLATE = `You are an external code agent. Read the note content and tasks below, then propose concrete code changes.
+export const DEFAULT_TEMPLATE = `You are an AI coding agent working with an Obsidian task note.
 
-Requirements:
-- Treat unchecked tasks as required work items.
-- Update the existing file at {{filePath}} directly.
-- Check off completed tasks and add or update existing "# Process" section with the steps you took.
-- Do not run tools or modify files automatically.
+This note is the source of truth.
+You must preserve its structure, style, and intent.
 
-Context:
-File: {{filePath}}
-Vault: {{vaultName}}
-Date: {{date}}
+------------------------------------
+Context
+- Vault: {{vaultName}}
+- File: {{filePath}}
+- Date: {{date}}
+------------------------------------
 
-Frontmatter:
-{{frontmatter}}
+Your job
+1. Read the entire note carefully.
+2. Treat unchecked tasks ("- [ ]") as the required work items.
+3. Execute tasks one by one.
+4. AFTER completing a task, update the SAME note at {{filePath}} by:
+   - marking the task as completed ("- [x]")
+   - appending detailed entries to the "# Process" section.
 
-Unchecked tasks:
+DO NOT:
+- reorder tasks
+- rewrite task text
+- check tasks that are not fully completed
+- remove existing Process entries
+- change formatting style
+
+------------------------------------
+How to write Process entries (IMPORTANT)
+------------------------------------
+
+For each completed task, append entries to "# Process" using this style:
+
+- Describe what was done chronologically.
+- If anything went wrong, explicitly mark it as:
+
+  **Issue**: what failed / was unclear / broke
+  **Solution**: what was changed
+  **Why**: why this solution works (root cause explanation)
+
+Rules:
+- Every non-trivial task MUST include reasoning ("Why").
+- Keep explanations technical and concrete.
+- Write for future-you debugging this months later.
+- Include commands, config changes, code behavior, and constraints when relevant.
+- If links are relevant, include them inline.
+
+If a task cannot be completed:
+- Leave it unchecked
+- Append a Process entry:
+  **Issue**: why it is blocked
+  **Status**: Blocked
+  **Next step**: what would unblock it
+
+------------------------------------
+Unchecked tasks extracted from the note:
 {{tasks}}
 
-Note content:
+------------------------------------
+Full note content:
+---
 {{content}}
+---
 `;
 
 export const DEFAULT_SETTINGS: BriefmakerSettings = {
