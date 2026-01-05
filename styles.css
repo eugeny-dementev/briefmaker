@@ -1,0 +1,59 @@
+.briefmaker-modal .briefmaker-pre {
+  max-height: 240px;
+  overflow: auto;
+  white-space: pre-wrap;
+  padding: 8px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  background: var(--background-secondary);
+}
+
+.briefmaker-modal .briefmaker-section {
+  margin-top: 12px;
+}
+
+.briefmaker-modal .briefmaker-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.briefmaker-rule {
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.briefmaker-rule-error {
+  color: var(--text-error);
+  margin-top: 6px;
+}
+
+.briefmaker-rule-test-output {
+  margin-top: 12px;
+}
+
+.briefmaker-status {
+  cursor: pointer;
+}
+
+.briefmaker-template-setting {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.briefmaker-template-setting .setting-item-info {
+  margin-bottom: 6px;
+}
+
+.briefmaker-template-setting .setting-item-control {
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+.briefmaker-template-setting .briefmaker-textarea {
+  width: 100%;
+  min-height: 160px;
+  resize: vertical;
+}
