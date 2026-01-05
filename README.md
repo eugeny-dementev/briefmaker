@@ -68,10 +68,11 @@ This repo tracks the built `main.js` file so you can install it without a local 
 
 ### Option B: Manual install from repo files
 1. Create a folder at `<Vault>/.obsidian/plugins/briefmaker`.
-2. Copy these files into that folder: `manifest.json`, `main.js`, `versions.json`, and `styles.css` (if present).
+2. Copy these files into that folder: `manifest.json`, `main.js`, `versions.json`, and `styles.css` .
 3. Reload Obsidian and enable Briefmaker.
 
-If you pull updates, run `npm run build` to refresh `main.js` before sharing changes.
+## Updating locally
+If you pull updates from the repo, run `npm run build` to refresh `main.js`
 
 ## Development
 ```bash
