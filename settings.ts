@@ -17,8 +17,8 @@ export const DEFAULT_TEMPLATE = `You are an external code agent. Read the note c
 
 Requirements:
 - Treat unchecked tasks as required work items.
-- Produce actionable edits with updated markdown to paste back into the note.
-- Check off completed tasks and include an "## Actions Taken" section.
+- Update the existing file at {{filePath}} directly.
+- Check off completed tasks and add or update existing "# Process" section with the steps you took.
 - Do not run tools or modify files automatically.
 
 Context:

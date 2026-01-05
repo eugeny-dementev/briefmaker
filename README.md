@@ -56,7 +56,7 @@ Unknown variables render as an empty string.
 1. Open the note you want to brief.
 2. Run "Briefmaker: Copy brief for current note" or open the preview.
 3. Paste the brief into Codex (or another AI code agent).
-4. Apply the returned changes manually inside Obsidian.
+4. Default template contain instruction to update current "Tasks" file after finishing with unchecked tasks
 
 ## Install directly from this repo
 This repo tracks the built `main.js` file so you can install it without a local build.
