@@ -58,6 +58,21 @@ Unknown variables render as an empty string.
 3. Paste the brief into Codex (or another AI code agent).
 4. Apply the returned changes manually inside Obsidian.
 
+## Install directly from this repo
+This repo tracks the built `main.js` file so you can install it without a local build.
+
+### Option A: BRAT (recommended for repo installs)
+1. Install the community plugin "BRAT".
+2. Open BRAT settings and add this repo URL.
+3. Enable Briefmaker in Obsidian's Community plugins list.
+
+### Option B: Manual install from repo files
+1. Create a folder at `<Vault>/.obsidian/plugins/briefmaker`.
+2. Copy these files into that folder: `manifest.json`, `main.js`, `versions.json`, and `styles.css` (if present).
+3. Reload Obsidian and enable Briefmaker.
+
+If you pull updates, run `npm run build` to refresh `main.js` before sharing changes.
+
 ## Development
 ```bash
 npm install
