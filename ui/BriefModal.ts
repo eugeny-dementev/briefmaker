@@ -40,17 +40,31 @@ export class BriefModal extends Modal {
 
     const tasksEl = contentEl.createDiv("briefmaker-section");
     tasksEl.createEl("h3", { text: "Unchecked tasks" });
-    tasksEl.createEl("pre", {
-      cls: "briefmaker-pre",
+    const tasksPreview = tasksEl.createDiv("briefmaker-preview");
+    tasksPreview.createEl("pre", {
+      cls: "briefmaker-preview-pre",
       text: this.data.tasksPreview || "(none)"
     });
+    tasksPreview.createEl("button", {
+      cls: "briefmaker-copy-button",
+      text: "Copy"
+    }).onclick = () => {
+      void this.handleCopy(this.data.tasksPreview || "");
+    };
 
     const briefEl = contentEl.createDiv("briefmaker-section");
     briefEl.createEl("h3", { text: "Rendered brief" });
-    briefEl.createEl("pre", {
-      cls: "briefmaker-pre",
+    const briefPreview = briefEl.createDiv("briefmaker-preview");
+    briefPreview.createEl("pre", {
+      cls: "briefmaker-preview-pre",
       text: this.data.renderedBrief
     });
+    briefPreview.createEl("button", {
+      cls: "briefmaker-copy-button",
+      text: "Copy"
+    }).onclick = () => {
+      void this.handleCopy(this.data.renderedBrief);
+    };
 
     const buttonRow = contentEl.createDiv("briefmaker-buttons");
     buttonRow.createEl("button", { text: "Copy" }).onclick = () => {

@@ -33,7 +33,17 @@ export default class BriefmakerPlugin extends Plugin {
     this.addCommand({
       id: "copy-brief",
       name: "Briefmaker: Copy brief for current note",
-      callback: () => void this.copyBriefForActiveFile()
+      checkCallback: (checking) => {
+        const file = this.app.workspace.getActiveFile();
+        const isMarkdown = !!file && file.extension === "md";
+        if (checking) {
+          return isMarkdown;
+        }
+        if (isMarkdown) {
+          void this.copyBriefForActiveFile();
+        }
+        return true;
+      }
     });
 
     this.addCommand({

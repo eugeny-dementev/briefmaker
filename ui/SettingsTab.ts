@@ -1,4 +1,11 @@
-import { FileSystemAdapter, PluginSettingTab, Setting, TFile } from "obsidian";
+import {
+  FileSystemAdapter,
+  Notice,
+  PluginSettingTab,
+  Setting,
+  TFile,
+  normalizePath
+} from "obsidian";
 import type BriefmakerPlugin from "../main";
 import { createRule } from "../settings";
 import { findMatchingRule, validateRegex } from "../ruleEngine";
@@ -27,8 +34,6 @@ export class BriefmakerSettingsTab extends PluginSettingTab {
       window.clearTimeout(this.testRefreshTimer);
       this.testRefreshTimer = null;
     }
-
-    new Setting(containerEl).setName("Briefmaker").setHeading();
 
     const defaultTemplateSetting = new Setting(containerEl)
       .setName("Default template")
@@ -256,12 +261,30 @@ export class BriefmakerSettingsTab extends PluginSettingTab {
 
     const rendered = renderTemplate(match.template, previewVars);
     output.createEl("div", { text: "Extracted tasks" });
-    output.createEl("pre", {
-      cls: "briefmaker-pre",
+    const tasksPreview = output.createDiv("briefmaker-preview");
+    tasksPreview.createEl("pre", {
+      cls: "briefmaker-preview-pre",
       text: tasks || "(none)"
     });
+    tasksPreview.createEl("button", {
+      cls: "briefmaker-copy-button",
+      text: "Copy"
+    }).onclick = () => {
+      void this.copyToClipboard(tasks || "");
+    };
+
     output.createEl("div", { text: "Rendered preview" });
-    output.createEl("pre", { cls: "briefmaker-pre", text: rendered });
+    const renderedPreview = output.createDiv("briefmaker-preview");
+    renderedPreview.createEl("pre", {
+      cls: "briefmaker-preview-pre",
+      text: rendered
+    });
+    renderedPreview.createEl("button", {
+      cls: "briefmaker-copy-button",
+      text: "Copy"
+    }).onclick = () => {
+      void this.copyToClipboard(rendered);
+    };
   }
 
   private scheduleTemplateRefresh(): void {
@@ -293,24 +316,22 @@ export class BriefmakerSettingsTab extends PluginSettingTab {
       return "";
     }
 
-    path = path.replace(/\\/g, "/");
+    path = normalizePath(path);
     const adapter = this.app.vault.adapter;
 
     if (adapter instanceof FileSystemAdapter) {
-      const basePath = adapter.getBasePath().replace(/\\/g, "/");
-      const isWindowsPath = /^[a-zA-Z]:\//.test(path);
-      if (isWindowsPath) {
-        if (path.toLowerCase().startsWith(basePath.toLowerCase())) {
-          path = path.slice(basePath.length);
-        }
-      } else if (path.startsWith(basePath)) {
+      const basePath = normalizePath(adapter.getBasePath());
+      const pathLower = path.toLowerCase();
+      const baseLower = basePath.toLowerCase();
+      if (pathLower === baseLower) {
+        return "";
+      }
+      if (pathLower.startsWith(`${baseLower}/`)) {
         path = path.slice(basePath.length);
       }
     }
 
-    if (path.startsWith("/")) {
-      path = path.slice(1);
-    }
+    path = path.replace(/^\/+/, "");
 
     return path;
   }
@@ -332,5 +353,24 @@ export class BriefmakerSettingsTab extends PluginSettingTab {
     this.plugin.settings.rules.splice(index, 1);
     await this.plugin.saveSettings();
     this.display();
+  }
+
+  private async copyToClipboard(text: string): Promise<void> {
+    if (navigator?.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      new Notice("Copied to clipboard.");
+      return;
+    }
+
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    document.execCommand("copy");
+    textarea.remove();
+    new Notice("Copied to clipboard.");
   }
 }

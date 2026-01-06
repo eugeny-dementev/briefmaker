@@ -1,11 +1,37 @@
-.briefmaker-modal .briefmaker-pre {
-  max-height: 240px;
-  overflow: auto;
-  white-space: pre-wrap;
+.briefmaker-preview {
+  position: relative;
+  width: 100%;
   padding: 8px;
   border: 1px solid var(--background-modifier-border);
   border-radius: 6px;
   background: var(--background-secondary);
+}
+
+.briefmaker-preview-pre {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  color: var(--text-normal);
+  font-family: var(--font-monospace);
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.briefmaker-copy-button {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 120ms ease-in-out;
+}
+
+.briefmaker-preview:hover .briefmaker-copy-button,
+.briefmaker-copy-button:focus {
+  opacity: 1;
 }
 
 .briefmaker-modal .briefmaker-section {
