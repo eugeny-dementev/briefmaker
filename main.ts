@@ -1,8 +1,7 @@
 import {
   MarkdownView,
   Notice,
-  Plugin,
-  moment
+  Plugin
 } from "obsidian";
 import { BriefmakerSettingsTab } from "./ui/SettingsTab";
 import { BriefModal } from "./ui/BriefModal";
@@ -28,7 +27,11 @@ export default class BriefmakerPlugin extends Plugin {
   private statusBar: HTMLElement | null = null;
 
   async onload(): Promise<void> {
-    this.settings = normalizeSettings(await this.loadData());
+    const loadedSettings = (await this.loadData()) as
+      | Partial<BriefmakerSettings>
+      | null
+      | undefined;
+    this.settings = normalizeSettings(loadedSettings);
 
     this.addCommand({
       id: "copy-brief",
@@ -132,7 +135,7 @@ export default class BriefmakerPlugin extends Plugin {
     const fileName = file.name;
     const dirPath = file.parent?.path ?? "";
     const vaultName = this.app.vault.getName();
-    const date = moment().format("YYYY-MM-DD");
+    const date = new Date().toLocaleDateString();
 
     const match = findMatchingRule(
       this.settings.rules,
