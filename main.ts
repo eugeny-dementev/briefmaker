@@ -1,4 +1,5 @@
 import {
+  FileSystemAdapter,
   MarkdownView,
   Notice,
   Plugin
@@ -131,7 +132,7 @@ export default class BriefmakerPlugin extends Plugin {
       ? JSON.stringify(cache.frontmatter, null, 2)
       : "";
 
-    const filePath = file.path;
+    const filePath = this.getFullPath(file);
     const fileName = file.name;
     const dirPath = file.parent?.path ?? "";
     const vaultName = this.app.vault.getName();
@@ -204,5 +205,13 @@ export default class BriefmakerPlugin extends Plugin {
     }
 
     throw new Error("Clipboard API not available.");
+  }
+
+  private getFullPath(file: { path: string }): string {
+    const adapter = this.app.vault.adapter;
+    if (adapter instanceof FileSystemAdapter && typeof adapter.getFullPath === "function") {
+      return adapter.getFullPath(file.path);
+    }
+    return file.path;
   }
 }

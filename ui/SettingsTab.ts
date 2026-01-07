@@ -239,16 +239,20 @@ export class BriefmakerSettingsTab extends PluginSettingTab {
       this.plugin.settings.defaultTemplate
     );
 
+    const fullPath = this.getFullPath(resolvedPath);
     const ruleName = match.rule?.name ?? "Default template";
     output.empty();
     output.createEl("div", { text: `Resolved path: ${resolvedPath}` });
+    if (fullPath !== resolvedPath) {
+      output.createEl("div", { text: `Full path: ${fullPath}` });
+    }
     output.createEl("div", { text: `Matched rule: ${ruleName}` });
     if (!fileFound) {
       output.createEl("div", { text: "File not found in vault." });
     }
 
     const previewVars = {
-      filePath: resolvedPath,
+      filePath: fullPath,
       fileName,
       dirPath,
       vaultName: this.app.vault.getName(),
@@ -333,6 +337,14 @@ export class BriefmakerSettingsTab extends PluginSettingTab {
 
     path = path.replace(/^\/+/, "");
 
+    return path;
+  }
+
+  private getFullPath(path: string): string {
+    const adapter = this.app.vault.adapter;
+    if (adapter instanceof FileSystemAdapter && typeof adapter.getFullPath === "function") {
+      return adapter.getFullPath(path);
+    }
     return path;
   }
 

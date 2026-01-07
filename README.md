@@ -40,7 +40,7 @@ Rules are evaluated in order; the first match wins. If no rules match, the defau
 Unchecked tasks are extracted and included in the brief with indentation preserved.
 
 ## Template variables
-- `{{filePath}}` - Full path of the note
+- `{{filePath}}` - Full path of the note (absolute on desktop vaults)
 - `{{fileName}}` - File name including extension
 - `{{dirPath}}` - Folder path (empty for vault root)
 - `{{vaultName}}` - Vault name
