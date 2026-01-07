@@ -99,7 +99,7 @@ export class BriefmakerSettingsTab extends PluginSettingTab {
 
       const matcherSetting = new Setting(ruleEl)
         .setName("Matcher")
-        .setDesc("Regex matcher only for MVP.");
+        .setDesc("Regex matcher only for the initial release.");
       matcherSetting.addDropdown((dropdown) => {
         dropdown.addOption("regex", "Regex");
         dropdown.setValue(rule.matcherType);

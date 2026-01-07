@@ -113,7 +113,7 @@ export default class BriefmakerPlugin extends Plugin {
   private async buildBrief(): Promise<BriefRenderResult | null> {
     const file = this.app.workspace.getActiveFile();
     if (!file || file.extension !== "md") {
-      new Notice("No active markdown file.");
+      new Notice("No active Markdown file.");
       return null;
     }
 
@@ -172,7 +172,7 @@ export default class BriefmakerPlugin extends Plugin {
 
     const file = this.app.workspace.getActiveFile();
     if (!file || file.extension !== "md") {
-      this.statusBar.setText("No markdown file");
+      this.statusBar.setText("No Markdown file");
       return;
     }
 
