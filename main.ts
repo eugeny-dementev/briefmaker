@@ -32,7 +32,7 @@ export default class BriefmakerPlugin extends Plugin {
 
     this.addCommand({
       id: "copy-brief",
-      name: "Briefmaker: Copy brief for current note",
+      name: "Copy brief for current note",
       checkCallback: (checking) => {
         const file = this.app.workspace.getActiveFile();
         const isMarkdown = !!file && file.extension === "md";
@@ -48,7 +48,7 @@ export default class BriefmakerPlugin extends Plugin {
 
     this.addCommand({
       id: "open-preview",
-      name: "Briefmaker: Open brief preview",
+      name: "Open brief preview",
       callback: () => void this.openBriefPreview()
     });
 
@@ -172,7 +172,7 @@ export default class BriefmakerPlugin extends Plugin {
 
     const file = this.app.workspace.getActiveFile();
     if (!file || file.extension !== "md") {
-      this.statusBar.setText("Briefmaker: no markdown file");
+      this.statusBar.setText("No markdown file");
       return;
     }
 
@@ -182,7 +182,7 @@ export default class BriefmakerPlugin extends Plugin {
       this.settings.defaultTemplate
     );
     const ruleName = match.rule?.name ?? "Default template";
-    this.statusBar.setText(`Briefmaker: ${ruleName}`);
+    this.statusBar.setText(ruleName);
     this.statusBar.onclick = () => {
       void this.openBriefPreview();
     };
@@ -200,14 +200,6 @@ export default class BriefmakerPlugin extends Plugin {
       return;
     }
 
-    const textarea = document.createElement("textarea");
-    textarea.value = text;
-    textarea.style.position = "fixed";
-    textarea.style.opacity = "0";
-    document.body.appendChild(textarea);
-    textarea.focus();
-    textarea.select();
-    document.execCommand("copy");
-    textarea.remove();
+    throw new Error("Clipboard API not available.");
   }
 }

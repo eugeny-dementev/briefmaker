@@ -9,8 +9,8 @@ Briefmaker is an Obsidian community plugin that prepares AI agent briefs from th
 - Preview and copy the brief from a modal window.
 
 ## Commands
-- Briefmaker: Copy brief for current note
-- Briefmaker: Open brief preview
+- Copy brief for current note
+- Open brief preview
 
 ## Rule examples (regex)
 ```regex

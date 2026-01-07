@@ -54,8 +54,12 @@
 .briefmaker-rule-error {
   color: var(--text-error);
   margin-top: 6px;
+  display: none;
 }
 
+.briefmaker-rule-error.is-visible {
+  display: block;
+}
 .briefmaker-rule-test-output {
   margin-top: 12px;
 }

@@ -118,10 +118,10 @@ export class BriefmakerSettingsTab extends PluginSettingTab {
         const patternError = validateRegex(pattern);
         if (patternError) {
           errorEl.textContent = `Pattern error: ${patternError}`;
-          errorEl.style.display = "block";
+          errorEl.classList.add("is-visible");
         } else {
           errorEl.textContent = "";
-          errorEl.style.display = "none";
+          errorEl.classList.remove("is-visible");
         }
       };
 
@@ -361,16 +361,12 @@ export class BriefmakerSettingsTab extends PluginSettingTab {
       new Notice("Copied to clipboard.");
       return;
     }
-
-    const textarea = document.createElement("textarea");
-    textarea.value = text;
-    textarea.style.position = "fixed";
-    textarea.style.opacity = "0";
-    document.body.appendChild(textarea);
-    textarea.focus();
-    textarea.select();
-    document.execCommand("copy");
-    textarea.remove();
-    new Notice("Copied to clipboard.");
+    const clipboard = (this.app as unknown as { clipboard?: { writeText: (value: string) => Promise<void> } }).clipboard;
+    if (clipboard?.writeText) {
+      await clipboard.writeText(text);
+      new Notice("Copied to clipboard.");
+      return;
+    }
+    new Notice("Clipboard API not available.");
   }
 }
