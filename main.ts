@@ -140,7 +140,7 @@ export default class BriefmakerPlugin extends Plugin {
 
     const match = findMatchingRule(
       this.settings.rules,
-      filePath,
+      [file.path, filePath],
       this.settings.defaultTemplate
     );
     const ruleName = match.rule?.name ?? "Default template";
@@ -180,9 +180,10 @@ export default class BriefmakerPlugin extends Plugin {
       return;
     }
 
+    const fullPath = this.getFullPath(file);
     const match = findMatchingRule(
       this.settings.rules,
-      file.path,
+      [file.path, fullPath],
       this.settings.defaultTemplate
     );
     const ruleName = match.rule?.name ?? "Default template";

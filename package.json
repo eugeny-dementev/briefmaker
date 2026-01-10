@@ -1,13 +1,14 @@
 {
   "name": "briefmaker",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Generate AI agent briefs from the current note using path-based templates and task extraction.",
   "author": "Eugeny Dementev",
   "main": "main.js",
   "scripts": {
     "dev": "node esbuild.config.mjs --watch",
-    "build": "npm run lint && node esbuild.config.mjs --production",
+    "build": "npm run test && npm run lint && node esbuild.config.mjs --production",
     "lint": "eslint .",
+    "test": "tsx tests/ruleEngine.test.ts",
     "typecheck": "tsc -noEmit -p tsconfig.json"
   },
   "devDependencies": {
@@ -17,6 +18,7 @@
     "eslint-plugin-obsidianmd": "^0.1.9",
     "esbuild": "^0.20.2",
     "obsidian": "^1.5.12",
+    "tsx": "^4.20.5",
     "typescript": "^5.4.3"
   }
 }

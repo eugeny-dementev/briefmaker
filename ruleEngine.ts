@@ -8,9 +8,22 @@ export interface RuleMatchResult {
 
 export function findMatchingRule(
   rules: BriefmakerRule[],
-  filePath: string,
+  filePath: string | string[],
   fallbackTemplate: string
 ): RuleMatchResult {
+  const paths = Array.isArray(filePath) ? filePath : [filePath];
+  const candidatePaths: string[] = [];
+  for (const path of paths) {
+    if (!path) {
+      continue;
+    }
+    candidatePaths.push(path);
+    const normalizedPath = path.replace(/\\/g, "/");
+    if (normalizedPath !== path) {
+      candidatePaths.push(normalizedPath);
+    }
+  }
+
   for (let i = 0; i < rules.length; i += 1) {
     const rule = rules[i];
     if (!rule.enabled) {
@@ -28,12 +41,16 @@ export function findMatchingRule(
       regex = null;
     }
 
-    if (regex && regex.test(filePath)) {
-      return {
-        rule,
-        ruleIndex: i,
-        template: rule.template
-      };
+    if (regex) {
+      for (const path of candidatePaths) {
+        if (regex.test(path)) {
+          return {
+            rule,
+            ruleIndex: i,
+            template: rule.template
+          };
+        }
+      }
     }
   }
 

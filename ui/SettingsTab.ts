@@ -233,13 +233,12 @@ export class BriefmakerSettingsTab extends PluginSettingTab {
       return;
     }
 
+    const fullPath = this.getFullPath(resolvedPath);
     const match = findMatchingRule(
       this.plugin.settings.rules,
-      resolvedPath,
+      [resolvedPath, fullPath],
       this.plugin.settings.defaultTemplate
     );
-
-    const fullPath = this.getFullPath(resolvedPath);
     const ruleName = match.rule?.name ?? "Default template";
     output.empty();
     output.createEl("div", { text: `Resolved path: ${resolvedPath}` });
